@@ -16,7 +16,9 @@ export const authOptions: NextAuthOptions = {
         }
 
         const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com'
-        const passwordHash = process.env.ADMIN_PASSWORD_HASH
+        const rawHash = process.env.ADMIN_PASSWORD_HASH
+        // Normalize any escaped dollar signs (\$ from .env files)
+        const passwordHash = rawHash ? rawHash.replace(/\\(\$)/g, '$1') : undefined
 
         // Validate email
         if (credentials.email.trim().toLowerCase() !== adminEmail.trim().toLowerCase()) {
